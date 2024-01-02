@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.annotation.Lazy;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 @Setter
@@ -19,8 +17,13 @@ public class StudentsRepositoryJDBC implements StudentsRepositoryInf {
 
     private String urlConn;
 
+    @PersistenceContext(synchronization = SynchronizationType.UNSYNCHRONIZED, type = PersistenceContextType.EXTENDED)
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
     public StudentsRepositoryJDBC() {
-        entityManager = JPAUtil.getEntityManagerFactory().createEntityManager();
+//        entityManager = JPAUtil.getEntityManagerFactory().createEntityManager();
     }
 
     @Override
@@ -37,9 +40,9 @@ public class StudentsRepositoryJDBC implements StudentsRepositoryInf {
     @Override
     public Student get(int idx) {
         TypedQuery<Student> q = entityManager.createQuery("SELECT s FROM Student s ORDER BY s.id", Student.class);
-        q.setFirstResult(idx-1).setMaxResults(idx);
+        q.setFirstResult(idx - 1).setMaxResults(idx);
         List<Student> estudiantes = q.getResultList();
-        System.out.println("estudiantes:"+estudiantes);
+        System.out.println("estudiantes:" + estudiantes);
         return estudiantes != null && estudiantes.size() > 0 ? estudiantes.get(0) : null;
     }
 
