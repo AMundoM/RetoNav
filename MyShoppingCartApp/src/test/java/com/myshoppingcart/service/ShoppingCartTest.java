@@ -1,25 +1,41 @@
 package com.myshoppingcart.service;
 
+import com.myshoppingcart.config.SpringConfig;
 import com.myshoppingcart.model.Producto;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Random;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {SpringConfig.class})
 public class ShoppingCartTest {
+
+    @Autowired
+    IShoppingCart cart;
+
+    @Test
+    void testBeans() {
+        assertThat(cart, notNullValue());
+    }
+
 
     @Test
     void cuando_se_crea_el_carrito_tiene_0_artículos() throws Exception {
         // given ... void
 
         // when
-        ShoppingCart cart = new ShoppingCart();
 
         // then
         int num = cart.getItemCount();
@@ -33,7 +49,6 @@ public class ShoppingCartTest {
     @ValueSource(ints = {0, 1, 2, 5, 10, 1000})
     void cuando_está_vacío_el_carrito_tiene_0_artículos(int numProducts) throws Exception {
         // given
-        ShoppingCart cart = new ShoppingCart();
 
         Random rand = new Random();
 
@@ -63,7 +78,6 @@ public class ShoppingCartTest {
     @ValueSource(ints = {0, 1, 2, 5, 10, 1000})
     void cuando_se_agrega_un_nuevo_producto_el_nuevo_saldo_debe_ser_la_suma_de_anteriores_más_el_costo_del_producto(int numProducts) throws Exception {
         // given
-        ShoppingCart cart = new ShoppingCart();
         Random rand = new Random();
         double inc = 0;
 
@@ -96,7 +110,6 @@ public class ShoppingCartTest {
 
     @Test
     void dadoCarritoNoVacio_cuandoComprar_entoncesOK() throws Exception {
-        ShoppingCart cart = new ShoppingCart();
 
         Random rand = new Random();
 

@@ -3,19 +3,23 @@ package com.myshoppingcart.persistence;
 import com.myshoppingcart.exception.ProductNotFoundException;
 import com.myshoppingcart.model.Producto;
 import com.myshoppingcart.properties.PropertyValues;
+import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//@Component
+@Setter
 public class ProductoDBRepository implements IProductoRepository {
-    private static String connUrl;
+    private String connUrl;
 
-    public ProductoDBRepository() throws IOException {
+    /*public ProductoDBRepository() throws IOException {
         PropertyValues props = new PropertyValues();
         connUrl = props.getPropValues().getProperty("db_url");
-    }
+    }*/
 
     @Override
     public Producto getProduct(int id) throws Exception {

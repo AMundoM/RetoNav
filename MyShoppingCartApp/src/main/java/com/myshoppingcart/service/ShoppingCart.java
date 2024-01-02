@@ -5,21 +5,28 @@ import com.myshoppingcart.model.Compra;
 import com.myshoppingcart.model.Producto;
 import com.myshoppingcart.persistence.CompraDBRepository;
 import com.myshoppingcart.persistence.ICompraRepository;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
-public class ShoppingCart {
+//@Component
+@Setter
+public class ShoppingCart implements IShoppingCart {
 
     private ArrayList<Producto> items;
+//    @Autowired
     private ICompraRepository repoCompras;
 
-    public ShoppingCart() throws Exception {
+    public ShoppingCart() /*throws Exception*/ {
         items = new ArrayList<>();
-        repoCompras = new CompraDBRepository();
+//        repoCompras = new CompraDBRepository();
     }
 
+    @Override
     public double getBalance() {
         double balance = 0.00;
         for (Iterator i = items.iterator(); i.hasNext(); ) {
@@ -29,10 +36,12 @@ public class ShoppingCart {
         return balance;
     }
 
+    @Override
     public void addItem(Producto item) {
         items.add(item);
     }
 
+    @Override
     public void removeItem(Producto item)
             throws ProductNotFoundException {
         if (!items.remove(item)) {
@@ -40,14 +49,17 @@ public class ShoppingCart {
         }
     }
 
+    @Override
     public int getItemCount() {
         return items.size();
     }
 
+    @Override
     public void empty() {
         items.clear();
     }
 
+    @Override
     public void comprar() {
         for (Producto item : items) {
             System.out.println("prod:" + item);

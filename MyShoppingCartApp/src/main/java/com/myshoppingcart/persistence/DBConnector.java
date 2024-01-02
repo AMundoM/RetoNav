@@ -1,12 +1,14 @@
 package com.myshoppingcart.persistence;
 
 import com.myshoppingcart.properties.PropertyValues;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+//@Component
 public class DBConnector {
 //    private String db_url = "jdbc:mysql://localhost/productos_db?user=productos_user&password=prod123";
 
